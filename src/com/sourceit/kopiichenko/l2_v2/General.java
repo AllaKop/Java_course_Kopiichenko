@@ -1,7 +1,7 @@
 package com.sourceit.kopiichenko.l2_v2;
 
 public class General {
-    // вывод всех тасков
+    // Tasks implementation
     public static void main (String[] args) {
         Task1.main (null);
         Task2.main (null);

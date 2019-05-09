@@ -1,15 +1,19 @@
 package com.sourceit.kopiichenko.l2_v2;
 
+import java.util.Scanner;
+
 public class Task2 {
-    // Написать программу, которая находит сумму цифр произвольного целого числа.
+    // Create a program to find the sum of the numerals of a random number.
     public static void main(String[] args) {
 
-        int num = 12658;
+        System.out.println("Enter a number");
+        Scanner scan = new Scanner(System.in);
+        int num = scan.nextInt();
         int sum = 0;
         while (num > 0) {
-            sum = sum + num % 10;
-            num = num / 10;
+            sum += + num % 10;
+            num /= 10;
         }
-        System.out.println(sum);
+        System.out.println("The sum of the numerals of your number is " + sum);
     }
 }

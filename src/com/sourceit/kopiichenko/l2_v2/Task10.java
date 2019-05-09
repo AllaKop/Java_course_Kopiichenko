@@ -1,25 +1,25 @@
 package com.sourceit.kopiichenko.l2_v2;
 
 public class Task10 {
-//Создать "треугольный" массив из 10 строк и заполнить его биномиальными коэффициентами (треугольник Паскаля)
-    public static void main(String[] args) {
+    //Create a triangular array of 10 strings and fill it in with binomial coefficients (Pascal's triangle)
+    private static final int STRINGS = 10;
 
-        int maxRows = 10;
-        int r;
-        int num;
-        for (int i = 0; i <= maxRows; i++) {
-            num = 1;
-            r = i + 1;
-            for (int j = maxRows - i; j > 0; j--) {
-                System.out.print(" ");
-            }
-            for (int col = 0; col <= i; col++) {
-                if (col > 0) {
-                    num = num * (r - col) / col;
+    public static void main(String[] args) {
+        System.out.println("Pascal's triangle");
+            int[][] array = new int[STRINGS][STRINGS];
+            for (int i = 0; i < STRINGS; i++) {
+                array[i][0] = array[i][i] = 1;
+                for (int j = 1; j < i; j++) {
+                    array[i][j] = array[i - 1][j - 1] + array[i - 1][j];
                 }
-                System.out.print(num + " ");
             }
-            System.out.println();
+            for (int n = 0; n < STRINGS; n++) {
+                for (int k = 0; k <= n; k++) {
+                    System.out.format(array[n][k] + " ");
+                    System.out.print(" ");
+                }
+                System.out.println();
+
+            }
         }
     }
-}

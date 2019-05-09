@@ -1,21 +1,24 @@
 package com.sourceit.kopiichenko.l2_v2;
 
-public class Task3 {
-    /* Написать программу проверки того, что заданное число Х – простое
-    т.е. не делится без остатка ни на какие числа, кроме себя и 1).
-     */
-    public static void main (String [] args) {
+import java.util.Scanner;
 
-        int b = 7;
-        boolean t = true;
+import static java.lang.Math.sqrt;
+
+public class Task3 {
+    //Create a program to verify that the given number X is prime.
+    public static void main (String [] args) {
+        System.out.println("Please enter a number");
+        Scanner scan = new Scanner (System.in);
+        int n = scan.nextInt();
+        boolean isPrime = true;
         int a;
-        for (a = 2; a<b; a++) {
-            if (b % a == 0) {
-                t =false;
+        int root = (int)Math.sqrt(n);
+        for (a = 2; a<root; a++) {
+            if (n % a != 0) {
+                isPrime =false;
                 break;
             }
         }
-        if (t) System.out.println("число простое");
-        else System.out.println("число составное");
+        System.out.println(isPrime? "prime number" : "number is not prime");
     }
 }
