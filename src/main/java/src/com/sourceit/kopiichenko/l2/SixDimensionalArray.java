@@ -6,19 +6,19 @@ Fill in the array with numbers from the beginning of the natural series.
 How many numbers are needed?
  */
 
-    private static final int[][][][][][] SIX_DIMENSIONAL_ARRAY = new int[2][2][2][2][2][2];
+    private static final int ARRAY_SIZE = 2;
 
     public static void main(String[] args) {
         int number = 1;
-        for (int i = 0; i < SIX_DIMENSIONAL_ARRAY.length; i++) {
-            for (int j = 0; j < SIX_DIMENSIONAL_ARRAY[i].length; j++) {
-                for (int k = 0; k < SIX_DIMENSIONAL_ARRAY[j].length; k++) {
-                    for (int l = 0; l < SIX_DIMENSIONAL_ARRAY[k].length; l++) {
-                        for (int m = 0; m < SIX_DIMENSIONAL_ARRAY[l].length; m++) {
-                            for (int n = 0; n < SIX_DIMENSIONAL_ARRAY[m].length; n++) {
-                                SIX_DIMENSIONAL_ARRAY[i][j][k][l][m][n] += number;
-                                number++;
-                                System.out.println(SIX_DIMENSIONAL_ARRAY[i][j][k][l][m][n]);
+        int[][][][][][] sixDimensionalArray = new int[ARRAY_SIZE][ARRAY_SIZE][ARRAY_SIZE][ARRAY_SIZE][ARRAY_SIZE][ARRAY_SIZE];
+        for (int i = 0; i < sixDimensionalArray.length; i++) {
+            for (int j = 0; j < sixDimensionalArray[i].length; j++) {
+                for (int k = 0; k < sixDimensionalArray[j].length; k++) {
+                    for (int m = 0; m < sixDimensionalArray[k].length; m++) {
+                        for (int n = 0; n < sixDimensionalArray[m].length; n++) {
+                            for (int p = 0; p < sixDimensionalArray[n].length; p++) {
+                                sixDimensionalArray[i][j][k][m][n][p] += number++;
+                                System.out.println(sixDimensionalArray[i][j][k][m][n][p]);
                             }
                         }
                     }

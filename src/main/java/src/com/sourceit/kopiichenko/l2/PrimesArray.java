@@ -4,17 +4,16 @@ import java.util.Arrays;
 
 public class PrimesArray {
     //Create an array of 100 elements and fill it in with primes.
-    private static boolean isPrime(int n, int[] primes, int last) {
-
-        if (n < 3) {
+    private static boolean isPrime(int number, int[] primes, int last) {
+        if (number > 0 && number < 3) {
             return true;
         }
         for (int i = 0; i < last; ++i) {
 
-            if (n % primes[i] == 0) {
+            if (number % primes[i] == 0) {
                 return false;
             }
-            int root = (int) Math.sqrt(n);
+            int root = (int) Math.sqrt(number);
             if (primes[i] > root) {
                 return true;
             }
@@ -23,7 +22,8 @@ public class PrimesArray {
     }
 
     public static void main(String[] args) {
-        final int[] primes = new int[100];
+        final int ARRAY_SIZE = 100;
+        int[] primes = new int[ARRAY_SIZE];
         int lastPrime = 2;
         for (int i = 0; i < primes.length; ++i) {
             primes[i] = lastPrime++;
