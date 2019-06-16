@@ -1,18 +1,21 @@
 package com.sourceit.kopiichenko.l10_11;
 
+import spals.shaded.com.google.common.collect.Lists;
+
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
-public class PrimesCollection extends Thread {
+public class PrimesCollection extends Thread implements Runnable {
 
     private static int rangeBeginning;
     private static int rangeEnding;
-    private static int listSize = rangeEnding - rangeBeginning;
-    private static ArrayList<Integer> numeralsRange = new ArrayList<>(listSize);
+    private static int listSize;
+    private static List<Integer> numeralsRange = new ArrayList<>(listSize);
     private static int quantityOfThreads;
     private static int chunkSize;
-    private static int index;
-    private static ArrayList<Integer> listOfPrimes = new ArrayList<>();
+    private static List<Thread> threads = new ArrayList<>(quantityOfThreads);
+    private static List<Integer> listOfPrimes = new ArrayList<>();
 
     public int setRangeBeginning(int rangeBeginning) {
         System.out.println("Please enter the beginning of the range");
@@ -36,7 +39,6 @@ public class PrimesCollection extends Thread {
         if (rangeEnding < 0) {
             throw new IllegalArgumentException("Only positive numerals are accepted");
         } else {
-
             return rangeEnding;
         }
     }
@@ -45,24 +47,23 @@ public class PrimesCollection extends Thread {
         return rangeEnding;
     }
 
-    public ArrayList<Integer> setNumeralsRange() {
+    public List<Integer> setNumeralsRange() {
         for ( int i = rangeBeginning; i <= rangeEnding; i++ ) {
             numeralsRange.add(i);
         }
         return numeralsRange;
     }
 
-    public static ArrayList<Integer> getNumeralsRange() {
+    public static List<Integer> getNumeralsRange() {
         return numeralsRange;
     }
 
     public int setQuantityOfThreads(int quantityOfThreads) {
-        this.quantityOfThreads = quantityOfThreads;
         System.out.println("Please enter the quantity of the threads");
         Scanner scan = new Scanner(System.in);
-        quantityOfThreads = scan.nextInt();
-        if (quantityOfThreads <= 0) {
-            throw new IllegalArgumentException("Only positive numerals are accepted");
+        this.quantityOfThreads = scan.nextInt();
+        if (quantityOfThreads < 0) {
+            throw new IllegalArgumentException("The quantity of threads must be more than 0");
         } else {
             return quantityOfThreads;
         }
@@ -73,6 +74,7 @@ public class PrimesCollection extends Thread {
     }
 
     public int setChunkSize() {
+        listSize = (rangeEnding + 1) - rangeBeginning;
         if (listSize != 0 && quantityOfThreads != 0) {
             if (listSize % quantityOfThreads == 0) {
                 chunkSize = listSize / quantityOfThreads;
@@ -87,40 +89,39 @@ public class PrimesCollection extends Thread {
         return chunkSize;
     }
 
-    public ArrayList<Integer> listSegregation(int index) {
-        this.index = index;
-        int start = index * chunkSize;
-        int end = Math.min(start + chunkSize, numeralsRange.size());
-
-        if (start > end) {
-            throw new IndexOutOfBoundsException("Index " + index + " is out of the list range <0," + (size() - 1) + ">");
-        } else {
-            return new ArrayList<>(numeralsRange.subList(start, end));
+    public void listSegregation() {
+        List<List<Integer>> lists = Lists.partition(numeralsRange, chunkSize);
+        for ( List<Integer> sublist : lists ) {
+            System.out.println("Sublists " + sublist);
         }
     }
 
-    public int size() {
-        return (int) Math.ceil((double) numeralsRange.size() / (double) chunkSize);
+    public List<Thread> createThreads() {
+        for ( int i = 1; i <= quantityOfThreads; i++ ) {
+            threads.add(new Thread("Thread #" + i) {
+                @Override
+                public void run() {
+                    for ( int i = rangeBeginning; i <= rangeEnding; i++ ) {
+                        if (i % 2 != 0) {
+                            listOfPrimes.add(i);
+                        }
+                    }
+                    System.out.println("List of primes " + listOfPrimes);
+                }
+            });
+        }
+        return threads;
     }
 
-    @Override
-    public void run() {
-        super.run();
-
-    }
-
-    public static ArrayList<Integer> setListOfPrimes(int number) {
-        for ( int i = rangeBeginning; i <= rangeEnding; i++ ) {
-            int root = (int) Math.sqrt(number);
-            if (number % numeralsRange.get(i) != 0 && numeralsRange.get(i) > root) {
-                listOfPrimes.add(number);
+    public void startThreads() {
+        System.out.println("Threads in list: ");
+        for ( Thread currentThread : threads ) {
+            currentThread.start();
+            try {
+                Thread.sleep(500);
+            } catch (Exception exception) {
             }
         }
-        return listOfPrimes;
-    }
-
-    public ArrayList<Integer> getListOfPrimes() {
-        return listOfPrimes;
     }
 
     public static void main(String[] args) {
@@ -135,7 +136,9 @@ public class PrimesCollection extends Thread {
         myPrimesCollection.getQuantityOfThreads();
         myPrimesCollection.setChunkSize();
         myPrimesCollection.getChunkSize();
-        System.out.println(myPrimesCollection.listSegregation(index));
+        myPrimesCollection.listSegregation();
+        myPrimesCollection.createThreads();
+        myPrimesCollection.startThreads();
     }
 }
 
