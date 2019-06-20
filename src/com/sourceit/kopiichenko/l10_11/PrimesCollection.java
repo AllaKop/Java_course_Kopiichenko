@@ -102,11 +102,13 @@ public class PrimesCollection extends Thread implements Runnable {
                 @Override
                 public void run() {
                     for ( int i = rangeBeginning; i <= rangeEnding; i++ ) {
-                        if (i % 2 != 0) {
-                            listOfPrimes.add(i);
+                        synchronized (PrimesCollection.class) {
+                            if (i % 2 != 0) {
+                                listOfPrimes.add(i);
+                            }
                         }
+                        System.out.println("List of primes " + listOfPrimes);
                     }
-                    System.out.println("List of primes " + listOfPrimes);
                 }
             });
         }
@@ -118,7 +120,7 @@ public class PrimesCollection extends Thread implements Runnable {
         for ( Thread currentThread : threads ) {
             currentThread.start();
             try {
-                Thread.sleep(500);
+                Thread.sleep(1000);
             } catch (Exception exception) {
             }
         }
