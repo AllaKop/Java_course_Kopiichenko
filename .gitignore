@@ -1,0 +1,8 @@
+/.idea
+
+/out
+/production
+*.idea
+*.xml
+
+*.iml
